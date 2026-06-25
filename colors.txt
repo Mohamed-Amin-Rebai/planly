@@ -3,30 +3,3 @@ RGB: rgb(241, 90, 36)
 HSL: hsl(17, 88%,54%)
 
 #D94E20
-
-
-
-
-
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDv44WTl3URTO5uzsxEU180yNW-t0ZqIA0",
-  authDomain: "ai-home-builder.firebaseapp.com",
-  projectId: "ai-home-builder",
-  storageBucket: "ai-home-builder.firebasestorage.app",
-  messagingSenderId: "957677152968",
-  appId: "1:957677152968:web:45e46d3de300485e18d3fd",
-  measurementId: "G-GZ7MC0SBYW"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);

@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { AiService } from '../ai/ai.service';
 import { CreatePlanDto } from './dto/create-plan.dto';
 
 @Injectable()
 export class PlansService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private aiService: AiService,
+  ) {}
 
   create(userId: string, dto: CreatePlanDto) {
     return this.prisma.plan.create({
@@ -38,4 +42,32 @@ export class PlansService {
       },
     });
   }
+
+  delete(id: string) {
+    return this.prisma.plan.delete({
+      where: { id },
+    });
+  }
+
+  update(id: string, data: any) {
+    return this.prisma.plan.update({
+      where: { id },
+      data,
+    });
+  }
+
+  async generatePlan(plan: any) {
+    const aiResult = await this.aiService.generateWithGemini({
+      boundary: plan.boundary,
+      constraints: plan.constraints,
+    });
+
+    return this.prisma.plan.update({
+      where: { id: plan.id },
+      data: {
+        layout: aiResult,
+      },
+    });
+  }
+
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Delete, Patch } from '@nestjs/common';
 import { PlansService } from './plans.service';
 import { CreatePlanDto } from './dto/create-plan.dto';
 
@@ -38,6 +38,16 @@ export class PlansController {
     };
 
     return this.plansService.saveLayout(id, layout);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.plansService.delete(id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() data: any) {
+    return this.plansService.update(id, data);
   }
 
 }

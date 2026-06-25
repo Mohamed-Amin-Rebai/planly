@@ -1,0 +1,253 @@
+/* Profile.css - Premium Edition */
+:root {
+  --primary: #F15A24;
+  --primary-hover: #D94E20;
+  --secondary: #2980b9;
+  --text-dark: #2D3748;
+  --text-light: #F7FAFC;
+  --bg-light: #FFFFFF;
+  --gray-light: #EDF2F7;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-page {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+.profile-content {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: var(--bg-light);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+}
+
+/* Profile Header */
+.profile-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.profile-image {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+  border: 4px solid var(--bg-light);
+  box-shadow: 
+    var(--shadow-md),
+    0 0 0 6px var(--primary);
+  transition: var(--transition);
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    var(--shadow-lg),
+    0 0 0 6px var(--primary);
+}
+
+.profile-header h2 {
+  margin: 0.75rem 0;
+  color: var(--text-dark);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.user-email {
+  color: #64748b;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.credit-balance {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(241, 90, 36, 0.1);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+}
+
+.credit-amount {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.3rem;
+}
+
+/* Sections */
+.credit-section, 
+.purchase-history {
+  margin: 3rem 0;
+}
+
+.credit-section h3, 
+.purchase-history h3 {
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--gray-light);
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.credit-section h3::before {
+  content: '💎';
+}
+
+.purchase-history h3::before {
+  content: '📋';
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1.5rem;
+  background: var(--bg-light);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+th {
+  background: linear-gradient(to right, var(--primary), var(--primary-hover));
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid var(--gray-light);
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: rgba(241, 90, 36, 0.03);
+}
+
+/* Buy Button */
+.buy-button {
+  padding: 0.6rem 1.25rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.buy-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.buy-button:active {
+  transform: translateY(0);
+}
+
+.buy-button::after {
+  content: '→';
+  transition: var(--transition);
+  opacity: 0.8;
+}
+
+.buy-button:hover::after {
+  transform: translateX(3px);
+}
+
+/* Empty State */
+td[colspan="3"] {
+  text-align: center;
+  color: #94a3b8;
+  padding: 2rem;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-content {
+    padding: 1.75rem 1.25rem;
+    margin: 1.5rem;
+  }
+  
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  th, td {
+    padding: 0.85rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-header,
+.credit-section,
+.purchase-history {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.purchase-history {
+  animation-delay: 0.1s;
+}
