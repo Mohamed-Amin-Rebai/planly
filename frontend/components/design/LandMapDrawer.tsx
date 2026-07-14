@@ -7,15 +7,11 @@ import {
   Marker,
   Polygon,
   Polyline,
-  Tooltip,
   useMapEvents,
 } from "react-leaflet";
 import L from "leaflet";
+import { Point } from "@/lib/types";
 
-type Point = {
-  lat: number;
-  lng: number;
-};
 
 export default function LandMapDrawer({
   onAreaCalculate,

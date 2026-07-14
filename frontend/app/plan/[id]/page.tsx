@@ -2,15 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import LoggedInNavbar from "@/components/navbar/LoggedInNavbar";
 import { api } from "@/lib/api";
 import { Stage, Layer, Rect, Text } from "react-konva";
+import { Plan } from "@/lib/types";
 
-interface Plan {
-  id: string;
-  name: string;
-  layout?: any;
-}
 
 export default function PlanPage({ params }: any) {
   const router = useRouter();
@@ -39,7 +34,6 @@ export default function PlanPage({ params }: any) {
 
   return (
     <div>
-      <LoggedInNavbar />
 
       <h1>Generated Plan</h1>
 
@@ -72,13 +66,10 @@ export default function PlanPage({ params }: any) {
       </div>
 
       <div>
-        <button onClick={() => router.push("/dashboard")}>
+        <button onClick={() => router.push("/design")}>
           Start New Plan
         </button>
 
-        <button onClick={() => router.push(`/dashboard`)}>
-          Modify Plan
-        </button>
       </div>
     </div>
   );

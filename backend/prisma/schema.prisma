@@ -8,20 +8,28 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+
+  clerkId   String  @unique
+  email     String
+  name      String?
+  role      String  @default("user")
+  preferences Json?
+
   createdAt DateTime @default(now())
 }
 
 model Plan {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String   @db.ObjectId
+
+  clerkId     String
+
   name        String
 
   boundary    Json
   constraints Json
   layout      Json?
+  layoutHistory Json[]
 
   status      String   @default("draft")
 

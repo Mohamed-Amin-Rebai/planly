@@ -2,11 +2,18 @@ import { IsString, IsObject } from 'class-validator';
 
 export class CreatePlanDto {
   @IsString()
-  name: string;
+  clerkId!: string;
+
+  @IsString()
+  name!: string;
 
   @IsObject()
-  boundary: any;
+  boundary!: any;
 
   @IsObject()
-  constraints: any;
+  constraints!: {
+    roomSetup: Record<string, number>;
+    desiredBuiltArea: number,
+    userPrompt?: string;
+  };
 }

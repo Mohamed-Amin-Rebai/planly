@@ -1,5 +1,52 @@
 #F15A24
 RGB: rgb(241, 90, 36)
 HSL: hsl(17, 88%,54%)
-
 #D94E20
+
+
+
+in plan id import chatpanel 
+
+
+
+
+----------
+
+
+{
+  "boundary": [
+    [0, 0],
+    [20, 0],
+    [20, 16],
+    [0, 16]
+  ],
+  "roomSetup": {
+    "Living Room": 1,
+    "Kitchen": 1,
+    "Bedroom": 3,
+    "Bathroom": 2
+  },
+  "userPrompt": "Modern villa with an open kitchen and spacious living room"
+}
+
+-------
+POST   /plans
+GET    /plans/user/:clerkId
+GET    /plans/:id
+POST   /plans/:id/generate
+POST   /plans/:id/plan
+POST   /plans/:id/update
+POST   /plans/:id/finalize
+PATCH  /plans/:id
+DELETE /plans/:id
+
+POST    /ai/generate
+POST    /ai/plan
+POST    /ai/update
+
+POST    /users/sync
+GET     /users/me/:clerkId
+PATCH   /users/:clerkId/role
+PATCH   /users/:clerkId/preferences
+GET     /users
+GET     /users/:clerkId

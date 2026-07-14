@@ -1,80 +1,80 @@
 import { Injectable } from '@nestjs/common';
+import { cleanJson } from './utils/clean-json-response';
+import { validateLayout } from './utils/validate-layout';
 
-const systemPrompt = `
-You are an expert architectural layout generator.
-
-You MUST return ONLY valid JSON.
-
-Goal:
-Generate a 2D house layout based on:
-- land boundary
-- rooms
-- user preferences
-
-Output format:
-
-{
-  "rooms": [
-    {
-      "name": "bedroom",
-      "x": 0,
-      "y": 0,
-      "width": 5,
-      "height": 4
-    }
-  ]
-}
-
-Rules:
-
-- Fit ALL rooms inside boundary
-- Do NOT overlap rooms
-- Respect approximate sizes
-- Simple rectangular rooms only
-- Place living room centrally
-- Bedrooms more private
-- Kitchen near living room
-
-DO NOT return text
-ONLY JSON
-`;
+import { generatePrompt } from './prompts/generate.prompt';
+import { planPrompt } from './prompts/plan.prompt';
+import { updatePrompt } from './prompts/update.prompt';
 
 @Injectable()
 export class AiService {
-    async generateWithGemini(input: any) {
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
+  private async callGemini(prompt: string) {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
             {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                contents: [
+              parts: [
                 {
-                    parts: [
-                    {
-                        text: `
-        ${systemPrompt}
-
-        USER DATA:
-        ${JSON.stringify(input)}
-                        `,
-                    },
-                    ],
+                  text: prompt,
                 },
-                ],
-            }),
-            }
-        );
+              ],
+            },
+          ],
+        }),
+      },
+    );
 
-        const data = await response.json();
+    if (!response.ok) {
+      throw new Error('Gemini request failed');
+    }
 
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    const data = await response.json();
 
-        return JSON.parse(text);
-        }
+    return (
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ?? ''
+    );
+  }
+
+  async generateLayout(input: any) {
+    const raw = await this.callGemini(generatePrompt(input));
+
+    const cleaned = cleanJson(raw);
+
+    const layout = JSON.parse(cleaned);
+
+    if (!validateLayout(layout)) {
+      throw new Error('Invalid generated layout');
+    }
+
+    return layout;
+  }
+
+  async planModification(message: string, currentLayout: any) {
+    return this.callGemini(
+      planPrompt(message, currentLayout),
+    );
+  }
+
+  async updateLayout(message: string, currentLayout: any) {
+    const raw = await this.callGemini(
+      updatePrompt(message, currentLayout),
+    );
+
+    const cleaned = cleanJson(raw);
+
+    const layout = JSON.parse(cleaned);
+
+    if (!validateLayout(layout)) {
+      throw new Error('Invalid updated layout');
+    }
+
+    return layout;
+  }
+
 }
-
-
-

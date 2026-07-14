@@ -1,10 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { RoomSetupType } from "@/lib/types";
 
-type RoomSetupType = {
-  [roomType: string]: number;
-};
 
 export default function FloorPlanForm({
   floorPlanArea,
@@ -12,14 +10,14 @@ export default function FloorPlanForm({
 }: {
   floorPlanArea: number;
   onGenerate: (data: {
-    usedArea: number;
+    desiredBuiltArea: number;
     roomSetup: RoomSetupType;
     title: string;
     prompt: string,
   }) => void;
 }) {
   const [title, setTitle] = useState("My Plan");
-  const [usedArea, setUsedArea] = useState(0);
+  const [desiredBuiltArea, setDesiredBuiltArea] = useState(0);
   const [roomSetup, setRoomSetup] = useState<RoomSetupType>({});
   const [isValid, setIsValid] = useState(false);
   const [prompt, setPrompt] = useState("");
@@ -39,7 +37,7 @@ export default function FloorPlanForm({
     let valid = true;
 
     // area check
-    if (usedArea <= 0 || usedArea > floorPlanArea) {
+    if (desiredBuiltArea <= 0 || desiredBuiltArea > floorPlanArea) {
       valid = false;
     }
 
@@ -50,7 +48,7 @@ export default function FloorPlanForm({
     }
 
     setIsValid(valid);
-  }, [usedArea, roomSetup, floorPlanArea]);
+  }, [desiredBuiltArea, roomSetup, floorPlanArea]);
 
   // ✅ update rooms
   const handleRoomChange = (type: string, count: number) => {
@@ -67,7 +65,7 @@ export default function FloorPlanForm({
       return;
     }
 
-    onGenerate({ title, usedArea, roomSetup, prompt});
+    onGenerate({ title, desiredBuiltArea, roomSetup, prompt});
   };
 
   return (
@@ -85,8 +83,8 @@ export default function FloorPlanForm({
       <input
         type="number"
         placeholder="Used area"
-        value={usedArea}
-        onChange={(e) => setUsedArea(+e.target.value)}
+        value={desiredBuiltArea}
+        onChange={(e) => setDesiredBuiltArea(+e.target.value)}
       />
 
       {/* Rooms */}
