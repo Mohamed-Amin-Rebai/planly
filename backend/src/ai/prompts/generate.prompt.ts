@@ -32,6 +32,35 @@ OUTPUT FORMAT:
   ]
 }
 
+MAIN ENTRANCE
+- Exactly one main entrance.
+- Must connect to a hallway, foyer, or living room.
+
+BEDROOMS
+- At least one door.
+- At least one window.
+
+BATHROOMS
+- At least one door.
+- One window required.
+
+KITCHENS
+- At least one door.
+- One window required.
+- Two access points preferred.
+
+LIVING ROOMS
+- At least one door.
+- Two windows preferred.
+
+HALLWAYS
+- Add hallways whenever needed.
+- Every room must be accessible.
+
+CONNECTIVITY
+- No isolated rooms.
+- Every room must connect directly or indirectly to the main entrance.
+
 ROOM RULES:
 
 - Every room must be rectangular.
@@ -43,6 +72,9 @@ ROOM RULES:
 - Do not overlap rooms.
 - Rooms should touch naturally when possible.
 - Every requested room must exist.
+- Every room must be reachable.
+- Rooms should not require walking through a bedroom to reach another room.
+- Create hallways when required.
 
 LAYOUT RULES:
 

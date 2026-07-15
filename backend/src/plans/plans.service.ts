@@ -21,6 +21,20 @@ export class PlansService {
     });
   }
 
+  async findAllPlans() {
+    const plans = await this.prisma.plan.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return plans.map((plan) => ({
+      ...plan,
+      roomsCount:
+        (plan.layout as any)?.rooms?.length ?? 0,
+    }));
+  }
+
   findAll(clerkId: string) {
     return this.prisma.plan.findMany({
       where: { clerkId },
@@ -43,7 +57,7 @@ export class PlansService {
     const plan = await this.findOne(id);
 
     const layout = await this.aiService.generateLayout({
-      boundary: plan.boundary,
+      boundary: plan.boundary as number[][],
       roomSetup: (plan.constraints as any).roomSetup,
       desiredBuiltArea: (plan.constraints as any).desiredBuiltArea,
       userPrompt: (plan.constraints as any).userPrompt,
@@ -75,6 +89,7 @@ export class PlansService {
       await this.aiService.updateLayout(
         message,
         plan.layout,
+        plan.boundary as number[][]
       );
 
     return this.prisma.plan.update({

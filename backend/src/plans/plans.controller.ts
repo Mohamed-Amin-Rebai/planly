@@ -15,6 +15,11 @@ export class PlansController {
     return this.plansService.create(dto);
   }
 
+  @Get()
+  findAllPlans() {
+    return this.plansService.findAllPlans();
+  }
+
   @Get('user/:clerkId')
   findAll(@Param('clerkId') clerkId: string) {
     return this.plansService.findAll(clerkId);

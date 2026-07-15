@@ -7,7 +7,19 @@ function overlaps(a: any, b: any): boolean {
   );
 }
 
-export function validateLayout(layout: any): boolean {
+function getBoundaryLimits(boundary: number[][]) {
+  const xs = boundary.map((p) => p[0]);
+  const ys = boundary.map((p) => p[1]);
+
+  return {
+    minX: Math.min(...xs),
+    maxX: Math.max(...xs),
+    minY: Math.min(...ys),
+    maxY: Math.max(...ys),
+  };
+}
+
+export function validateLayout(layout: any, boundary: number[][]): boolean {
   if (!layout) return false;
 
   if (!layout.rooms) return false;
@@ -55,8 +67,31 @@ export function validateLayout(layout: any): boolean {
     }
   }
 
+  // boundary validation
+  // const bounds = getBoundaryLimits(boundary);
+
+  // for (const room of layout.rooms) {
+  //   if (room.x < bounds.minX) {
+  //     return false;
+  //   }
+
+  //   if (room.y < bounds.minY) {
+  //     return false;
+  //   }
+
+  //   if (room.x + room.width > bounds.maxX) {
+  //     return false;
+  //   }
+
+  //   if (room.y + room.height > bounds.maxY) {
+  //     return false;
+  //   }
+  // }
+
+  // no rooms
+  if (layout.rooms.length === 0) {
+    return false;
+  }
+
   return true;
 }
-// later we add
-// - boundary validation
-// validateLayout(layout, boundary)

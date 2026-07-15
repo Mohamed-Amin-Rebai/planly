@@ -1,4 +1,4 @@
-import { IsString, IsObject } from 'class-validator';
+import { IsString, IsObject, IsArray } from 'class-validator';
 
 export class CreatePlanDto {
   @IsString()
@@ -7,8 +7,8 @@ export class CreatePlanDto {
   @IsString()
   name!: string;
 
-  @IsObject()
-  boundary!: any;
+  @IsArray()
+  boundary!: number[][];
 
   @IsObject()
   constraints!: {

@@ -1,6 +1,7 @@
 import {
   IsObject,
   IsString,
+  IsArray
 } from 'class-validator';
 
 export class UpdateLayoutDto {
@@ -9,4 +10,7 @@ export class UpdateLayoutDto {
 
   @IsObject()
   currentLayout!: any;
+
+  @IsArray()
+  boundary!: any;
 }

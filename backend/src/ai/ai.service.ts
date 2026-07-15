@@ -10,7 +10,7 @@ import { updatePrompt } from './prompts/update.prompt';
 export class AiService {
   private async callGemini(prompt: string) {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: 'POST',
         headers: {
@@ -31,7 +31,14 @@ export class AiService {
     );
 
     if (!response.ok) {
-      throw new Error('Gemini request failed');
+      const text = await response.text();
+
+      console.error("GEMINI ERROR:");
+      console.error(text);
+
+      throw new Error(
+        `Gemini request failed: ${response.status}`,
+      );
     }
 
     const data = await response.json();
@@ -48,8 +55,17 @@ export class AiService {
 
     const layout = JSON.parse(cleaned);
 
-    if (!validateLayout(layout)) {
-      throw new Error('Invalid generated layout');
+    console.log(
+      JSON.stringify(layout, null, 2)
+    );
+
+    if (!validateLayout(layout, input.boundary)) {
+      console.log("BOUNDARY:");
+      console.log(
+        JSON.stringify(input.boundary, null, 2)
+      );
+
+      throw new Error("Invalid generated layout");
     }
 
     return layout;
@@ -61,7 +77,7 @@ export class AiService {
     );
   }
 
-  async updateLayout(message: string, currentLayout: any) {
+  async updateLayout(message: string, currentLayout: any, boundary: number[][]) {
     const raw = await this.callGemini(
       updatePrompt(message, currentLayout),
     );
@@ -70,7 +86,7 @@ export class AiService {
 
     const layout = JSON.parse(cleaned);
 
-    if (!validateLayout(layout)) {
+    if (!validateLayout(layout, boundary)) {
       throw new Error('Invalid updated layout');
     }
 

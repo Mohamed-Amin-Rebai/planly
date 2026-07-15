@@ -32,6 +32,7 @@ export class AiController {
     return this.aiService.updateLayout(
       dto.message,
       dto.currentLayout,
+      dto.boundary
     );
   }
 }
