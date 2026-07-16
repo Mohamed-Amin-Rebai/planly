@@ -4,11 +4,32 @@ HSL: hsl(17, 88%,54%)
 #D94E20
 
 
+**finished***
+page layout globalscss
+header headerwrapper
+signin signup
+design and design components  (except boundary validation ig)
+plan and plan components
+profile
+admin
 
-in plan id import chatpanel 
 
+***to do***
+doors windowns halls
+have floorplan close to rectangle as much as possible
+konva thingy rn
 
+plan update ai chatbot
 
+Export PNG
+User clicks:  Export PNG
+Konva supports:  stageRef.current.toDataURL()
+Then:  Download Floorplan
+
+Layout History / Undo
+i have : layoutHistory Json[]
+Before every update: layoutHistory.push(currentLayout)
+Then: Undo Last Change / Restore Version #3
 
 ----------
 
@@ -31,6 +52,7 @@ in plan id import chatpanel
 
 -------
 POST   /plans
+GET    /plans
 GET    /plans/user/:clerkId
 GET    /plans/:id
 POST   /plans/:id/generate
@@ -50,3 +72,5 @@ PATCH   /users/:clerkId/role
 PATCH   /users/:clerkId/preferences
 GET     /users
 GET     /users/:clerkId
+
+GET     /health

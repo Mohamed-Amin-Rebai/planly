@@ -22,6 +22,7 @@ function getBoundaryLimits(boundary: number[][]) {
 export function validateLayout(layout: any, boundary: number[][]): boolean {
   if (!layout) return false;
 
+  // validate rooms
   if (!layout.rooms) return false;
 
   if (!Array.isArray(layout.rooms)) return false;
@@ -91,6 +92,103 @@ export function validateLayout(layout: any, boundary: number[][]): boolean {
   // no rooms
   if (layout.rooms.length === 0) {
     return false;
+  }
+
+  // validate doors
+  if (!Array.isArray(layout.doors)) {
+    return false;
+  }
+
+  if (layout.doors.length === 0) {
+    return false;
+  }
+
+  const mainDoors = layout.doors.filter(
+    (d: any) => d.type === "main",
+  );
+
+  if (mainDoors.length !== 1) {
+    return false;
+  }
+
+  for (const door of layout.doors) {
+    if (!door.type) {
+      return false;
+    }
+
+    if (!door.room) {
+      return false;
+    }
+
+    if (!door.wall) {
+      return false;
+    }
+
+    if (
+      !["north", "south", "east", "west"].includes(
+        door.wall,
+      )
+    ) {
+      return false;
+    }
+  }
+
+  const roomNames = layout.rooms.map(
+    (r: any) => r.name,
+  );
+
+  for (const door of layout.doors) {
+    if (!roomNames.includes(door.room)) {
+      return false;
+    }
+  }
+
+  // validate windowns
+  if (!Array.isArray(layout.windows)) {
+    return false;
+  }
+
+  for (const window of layout.windows) {
+    if (!window.room) {
+      return false;
+    }
+
+    if (!window.wall) {
+      return false;
+    }
+  }
+
+  // Validate required windows
+  for (const room of layout.rooms) {
+    const roomWindows =
+      layout.windows.filter(
+        (w: any) => w.room === room.name,
+      );
+
+    switch (room.name.toLowerCase()) {
+      case "bedroom":
+        if (roomWindows.length < 1) {
+          return false;
+        }
+        break;
+
+      case "kitchen":
+        if (roomWindows.length < 1) {
+          return false;
+        }
+        break;
+
+      case "living room":
+        if (roomWindows.length < 1) {
+          return false;
+        }
+        break;
+
+      case "hallway":
+        if (room.width < 1) return false;
+        if (room.height < 1) return false;
+        break;
+    }
   }
 
   return true;
